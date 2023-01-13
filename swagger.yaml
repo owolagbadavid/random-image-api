@@ -92,11 +92,7 @@ paths:
         - Images
       summary: Create Image
       operationId: CreateImage
-      parameters:
-        - name: token
-          in: cookie
-          type: string
-          required: true
+      parameters: []
       requestBody:
         description: ''
         content:
@@ -145,11 +141,7 @@ paths:
         - Images
       summary: Upload Image
       operationId: UploadImage
-      parameters:
-        - name: token
-          in: cookie
-          type: string
-          required: true
+      parameters: []
       requestBody:
         description: ''
         content:

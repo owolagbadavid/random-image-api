@@ -41,24 +41,23 @@ const apiLimiter = rateLimiter({
 
 
 
-// Swagger
-const swaggerUI = require('swagger-ui-express');
-const YAML = require('yamljs');
-const authenticateUser = require('./middleware/authentication');
-const swaggerDocument = YAML.load('./swagger.yaml');
-
 app.set('trust proxy', 1)
 app.use(morgan('tiny'))
+app.use(helmet());
+app.use(cors())
+app.use(xss());
 app.use(express.static('./public'))
 app.use(cookieParser(process.env.JWT_SECRET))
 app.use(express.json())
 app.use(fileUpload({
   useTempFiles:true
 }))
-app.use(helmet());
-app.use(cors())
-app.use(xss());
 
+// Swagger
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const authenticateUser = require('./middleware/authentication');
+const swaggerDocument = YAML.load('./swagger.yaml');
 
 app.get('/', (req, res) => {
   res.send('<h1>Cermuel</h1><a href="/api-docs">Link to documentation</a>');

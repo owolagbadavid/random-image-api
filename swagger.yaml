@@ -66,6 +66,7 @@ paths:
                 example: token=abcde12345; Path=/; HttpOnly
       deprecated: false
       security: []
+  /auth/login:
     get:
       tags:
         - Auth
@@ -101,7 +102,7 @@ paths:
               $ref: '#/components/schemas/CreateImageRequest'
             example:
               name: 'My Image'
-              imgageURL: '/mike.jpeg'
+              imageURL: '/mike.jpeg'
         required: true
       responses:
         '200':

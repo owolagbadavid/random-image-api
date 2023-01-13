@@ -8,7 +8,9 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     msg: err.message || 'Something went wrong try again later',
   }
 if (customError.statusCode === StatusCodes.UNAUTHORIZED) {
+  if(req.files){
   rmvTempImgs().then(()=>{console.log('temp removed')});
+  }
 }
   // if (err instanceof CustomAPIError) {
   //   return res.status(err.statusCode).json({ msg: err.message })

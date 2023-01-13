@@ -1,0 +1,225 @@
+openapi: 3.0.0
+info:
+  title: Random Image API
+  contact: {}
+  version: '1.0'
+servers:
+  - url: https://randoImg.onrender.com/api/v1
+    variables: {}
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register User
+      operationId: RegisterUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUserRequest'
+            example:
+              name: bob
+              email: bob@gmail.com
+              password: secret
+        required: true
+      responses:
+        '200':
+          description: >
+            Successfully authenticated.
+            The session ID is returned in a cookie named `token`. You need to include this cookie in subsequent requests.
+          headers:
+            Set-Cookie:
+              schema: 
+                type: string
+                example: token=abcde12345; Path=/; HttpOnly
+      deprecated: false
+      security: []
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login User
+      operationId: LoginUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUserRequest'
+            example:
+              email: susan@gmail.com
+              password: secret
+        required: true
+      responses:
+        '200':
+          description: >
+            Successfully authenticated.
+            The session ID is returned in a cookie named `token`. You need to include this cookie in subsequent requests.
+          headers:
+            Set-Cookie:
+              schema: 
+                type: string
+                example: token=abcde12345; Path=/; HttpOnly
+      deprecated: false
+      security: []
+    get:
+      tags:
+        - Auth
+      summary: Logout User
+      operationId: LogoutUser
+      parameters: []
+      responses:
+        '200':
+          description: >
+            Successfully logged out.
+            The session ID is returned in a cookie named `logout`. It immediately expires so subsequent request are unauthenticated.
+          headers:
+            Set-Cookie:
+              schema: 
+                type: string
+                example: token=abcde12345; Path=/; HttpOnly
+      deprecated: false
+      security: []
+  /images:
+    post:
+      security:
+        - cookieAuth: []
+      tags:
+        - Images
+      summary: Create Image
+      operationId: CreateImage
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateImageRequest'
+            example:
+              name: 'My Image'
+              imgageURL: '/mike.jpeg'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+    get:
+      security: []
+      tags:
+        - Images
+      summary: Get All Images
+      operationId: GetAllImages
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /images/random:
+    get:
+      security: []
+      tags:
+        - Images
+      summary: Get Random Image
+      operationId: GetRandomImage
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false    
+  /images/uploads:
+    post:
+      security:
+        - cookieAuth: []
+      tags:
+        - Images
+      summary: Upload Image
+      operationId: UploadImage
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image: 
+                  type: string
+                  format: binary    
+              example:
+                image: 
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      
+
+    
+components:
+  schemas:
+    RegisterUserRequest:
+      title: RegisterUserRequest
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: bob
+        email: bob@gmail.com
+        password: secret
+    LoginUserRequest:
+      title: LoginUserRequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: susan@gmail.com
+        password: secret
+    CreateImageRequest:
+      title: CreateImageRequest
+      required:
+        - name
+        - imageURL
+      type: object
+      properties:
+        name:
+          type: string
+        imageURL:
+          type: string
+      example:
+        name: My Image
+        imageURL: /mike.jpeg
+  securitySchemes:
+    cookieAuth:         # arbitrary name for the security scheme; will be used in the "security" key later
+      type: apiKey
+      in: cookie
+      name: token  # cookie name 
+security:
+  - cookieAuth: []
+tags:
+  - name: Auth
+    description: ''
+  - name: Images
+    description: ''

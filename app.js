@@ -4,6 +4,7 @@ require('express-async-errors');
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const cron = require('node-cron');
@@ -55,6 +56,7 @@ app.use(fileUpload({
   useTempFiles:true
 }))
 app.use(helmet());
+app.use(cors())
 app.use(xss());
 
 

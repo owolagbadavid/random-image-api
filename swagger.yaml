@@ -216,8 +216,6 @@ components:
       type: apiKey
       in: cookie
       name: token  # cookie name 
-security:
-  - cookieAuth: []
 tags:
   - name: Auth
     description: ''

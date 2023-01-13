@@ -18,7 +18,7 @@ const registerLimiter = rateLimiter({
 
 const loginLimiter = rateLimiter({
     windowMs: 24 * 60 * 60 * 1000,
-    max: 3,
+    max: 10,
     message: {
       msg: "Too many atempts from this IP, please try again in 24 hours"
     }
